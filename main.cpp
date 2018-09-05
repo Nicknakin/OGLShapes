@@ -16,9 +16,12 @@ void sleepcp(int);
 void update(grid& cells);
 
 int main(){
-        srand(std::time(nullptr));
+    srand(std::time(nullptr));
 
     grid cells{};
+
+    bool resized = true;
+
     for(int i = 0; i < height/side; i++){
         std::vector<Cell> row{};
         cells.push_back(row); 
@@ -36,16 +39,19 @@ int main(){
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+            else if(event.type == sf::Event::Resized)
+                    resized = true;
         }
         
         update(cells);
         for(int i = 0; i < cells.size(); i++){
             for(int k = 0; k < cells[i].size(); k++){
-                if(cells[i][k].changed)
+                if(resized || cells[i][k].changed)
                     window.draw((cells[i][k].getRect()));
             }
         }
         window.display();
+        resized = false;
     }
     return 0;
 }
