@@ -9,7 +9,7 @@
 #define grid std::vector<std::vector<Cell>>
 
 int width = 800, height = 800;
-int side = 1;
+int side = 10;
 int x = 0, y = 0, xI = 1, yI = 1, xMax = width/side, yMax = height/side;
 
 void sleepcp(int);
@@ -46,8 +46,10 @@ int main(){
         update(cells);
         for(int i = 0; i < cells.size(); i++){
             for(int k = 0; k < cells[i].size(); k++){
-                if(resized || cells[i][k].changed)
-                    window.draw((cells[i][k].getRect()));
+                if(resized || cells[i][k].changed){
+                    window.draw((cells[i][k]));
+                    cells[i][k].changed = false;
+                }
             }
         }
         window.display();
