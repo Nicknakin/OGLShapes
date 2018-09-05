@@ -6,15 +6,27 @@
 #include <SFML/Graphics.hpp>
 #include "cell.h"
 
+#define grid std::vector<std::vector<Cell>>
+
+int width = 800, height = 800;
+int side = 1;
+int x = 0, y = 0, xI = 1, yI = 1, xMax = width/side, yMax = height/side;
+
 void sleepcp(int);
+void update(grid& cells);
 
 int main(){
-    int width = 800, height = 800;
-    int side = 10;
-    
-    srand(std::time(nullptr));
+        srand(std::time(nullptr));
 
-    
+    grid cells{};
+    for(int i = 0; i < height/side; i++){
+        std::vector<Cell> row{};
+        cells.push_back(row); 
+        for(int k = 0; k < width/side; k++){
+            Cell cell{k, i, side, side};
+            cells[i].push_back(cell);
+        }
+    }
     
     sf::RenderWindow window(sf::VideoMode(width,height), "SFML Project");
     while (window.isOpen())
@@ -25,25 +37,15 @@ int main(){
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-        std::vector<std::vector<Cell>> cells{};
-        for(int i = 0; i < height/side; i++){
-            std::vector<Cell> row{};
-            cells.push_back(row); 
-            for(int k = 0; k < width/side; k++){
-                Cell cell{i, k, side, side, sf::Color((int) rand()%255, (int) rand()%255, (int) rand()%255)};
-                cells[i].push_back(cell);
-            }
-        }
-        window.clear();
+        
+        update(cells);
         for(int i = 0; i < cells.size(); i++){
             for(int k = 0; k < cells[i].size(); k++){
-                window.draw((cells[i][k].getRect()));
-                
+                if(cells[i][k].changed)
+                    window.draw((cells[i][k].getRect()));
             }
         }
         window.display();
-        sleepcp(1000/2);
     }
     return 0;
 }
@@ -55,4 +57,10 @@ void sleepcp(int milliseconds) // Cross-platform sleep function
     while (clock() < time_end)
     {
     }
+}
+
+void update(grid& cells){
+    int i = rand()%cells.size();
+    int k = rand()%cells[i].size();
+    cells[i][k].setColor(rand()%255, rand()%255, rand()%255);
 }

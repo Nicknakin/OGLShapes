@@ -7,11 +7,15 @@
 
 class Cell{
     public:
-        Cell(int x, int y, int width, int height, sf::Color color = sf::Color(255,255,255));
+        Cell(int x, int y, int width, int height, sf::Color color = sf::Color(0,0,0));
         void draw(sf::RenderWindow& window);
         std::string toString() const;
         sf::RectangleShape& getRect();
+        void setColor(int r, int g, int b);
+        sf::Color getColor();
         friend std::ostream& operator<<(std::ostream& os, const Cell& cell);
+        bool changed;
+
     private:
         sf::RectangleShape rect;
         sf::Color color;
