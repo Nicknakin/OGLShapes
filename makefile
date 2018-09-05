@@ -2,10 +2,10 @@ CXX = g++
 oglflags = -lsfml-graphics -lsfml-window -lsfml-system
 
 default: main.o cell.o
-	$(CXX) -o run main.o cell.o $(oglflags)
+	$(CXX) -o oglshapes main.o cell.o $(oglflags)
 
 debug: main.o cell.o
-	$(CXX) -g -Wall -o run main.cpp cell.cpp $(oglflags)
+	$(CXX) -g -Wall -o dbgoglshapes main.cpp cell.cpp $(oglflags)
 
 main: main.cpp
 	$(CXX) -c main.cpp $(oglflags)

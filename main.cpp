@@ -6,6 +6,8 @@
 #include <SFML/Graphics.hpp>
 #include "cell.h"
 
+void sleepcp(int);
+
 int main(){
     int width = 800, height = 800;
     int side = 10;
@@ -41,6 +43,16 @@ int main(){
             }
         }
         window.display();
+        sleepcp(1000/2);
     }
     return 0;
+}
+
+void sleepcp(int milliseconds) // Cross-platform sleep function
+{
+    clock_t time_end;
+    time_end = clock() + milliseconds * CLOCKS_PER_SEC/1000;
+    while (clock() < time_end)
+    {
+    }
 }
