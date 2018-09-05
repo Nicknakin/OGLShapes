@@ -2,7 +2,6 @@
 #include <sstream>
 
 Cell::Cell(int x, int y, int width, int height, sf::Color color): x{x}, y{y}, width{width}, height{height}, color{color}, sf::RectangleShape(sf::Vector2<float>{width, height}) {
-    changed = true;
     setPosition(x*width, y*height);
     setFillColor(color);
 }
@@ -19,7 +18,6 @@ std::ostream& operator<<(std::ostream& os, const Cell& cell){
 }
 
 void Cell::setColor(int r, int g, int b){
-    changed = true;
     color.r = r;
     color.g = g;
     color.b = b;

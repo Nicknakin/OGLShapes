@@ -9,19 +9,18 @@
 #define grid std::vector<std::vector<Cell>>
 
 int width = 800, height = 800;
-int side = 10;
+int side = 1;
 int x = 0, y = 0, xI = 1, yI = 1, xMax = width/side, yMax = height/side;
+const float speed = 60.f;
+std::vector<std::vector<int>> changed{};
 
-void sleepcp(int);
-void update(grid& cells);
+void update(grid& cells, int i);
 
 int main(){
     srand(std::time(nullptr));
-
     grid cells{};
-
     bool resized = true;
-
+    
     for(int i = 0; i < height/side; i++){
         std::vector<Cell> row{};
         cells.push_back(row); 
@@ -32,6 +31,7 @@ int main(){
     }
     
     sf::RenderWindow window(sf::VideoMode(width,height), "SFML Project");
+    window.setFramerateLimit(60);
     while (window.isOpen())
     {
         sf::Event event;
@@ -43,32 +43,30 @@ int main(){
                     resized = true;
         }
         
-        update(cells);
-        for(int i = 0; i < cells.size(); i++){
-            for(int k = 0; k < cells[i].size(); k++){
-                if(resized || cells[i][k].changed){
-                    window.draw((cells[i][k]));
-                    cells[i][k].changed = false;
+        update(cells, 100);
+        while(changed.size() > 0){
+            window.draw((cells[changed[0][0]][changed[0][1]]));
+            changed.erase(changed.begin(), changed.begin()+1);
+        }
+        window.display();
+        if(resized){
+            for(int i = 0; i < cells.size(); i++){
+                for(int k = 0; k < cells[i].size(); k++){
+                    window.draw(cells[i][k]);
                 }
             }
         }
-        window.display();
         resized = false;
     }
     return 0;
 }
 
-void sleepcp(int milliseconds) // Cross-platform sleep function
-{
-    clock_t time_end;
-    time_end = clock() + milliseconds * CLOCKS_PER_SEC/1000;
-    while (clock() < time_end)
-    {
+void update(grid& cells, int i){
+    for(i; i > 0; i--){
+        int i = rand()%cells.size();
+        int k = rand()%cells[i].size();
+        std::vector<int> temp{i,k};
+        changed.push_back(temp);
+        cells[i][k].setColor(rand()%255, rand()%255, rand()%255);
     }
-}
-
-void update(grid& cells){
-    int i = rand()%cells.size();
-    int k = rand()%cells[i].size();
-    cells[i][k].setColor(rand()%255, rand()%255, rand()%255);
 }
