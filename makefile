@@ -5,7 +5,7 @@ default: main.o cell.o
 	$(CXX) -o run main.o cell.o $(oglflags)
 
 debug: main.o cell.o
-	$(CXX) -g -Wall -o run main.o cell.o $(oglflags)
+	$(CXX) -g -Wall -o run main.cpp cell.cpp $(oglflags)
 
 main: main.cpp
 	$(CXX) -c main.cpp $(oglflags)

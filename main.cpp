@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vector>
+#include <iostream>
+#include <ctime>
 #include <SFML/Graphics.hpp>
 #include "cell.h"
 
@@ -8,21 +10,11 @@ int main(){
     int width = 800, height = 800;
     int side = 10;
     
-    srand(100);
+    srand(std::time(nullptr));
 
-
+    
+    
     sf::RenderWindow window(sf::VideoMode(width,height), "SFML Project");
-    std::vector<std::vector<Cell>> cells{};
-    cells.reserve(height/side); 
-    for(int i = 0; i < cells.size(); i++){
-        std::vector<Cell> row{};
-        row.reserve(width/side);
-        cells[i] = row; 
-        for(int k = 0; k < cells[i].size(); k++){
-            Cell cell{i, k, side, side, sf::Color(rand()%255, rand()%255, rand()%255)};
-            cells[i][k] = cell;
-        }
-    }
     while (window.isOpen())
     {
         sf::Event event;
@@ -32,15 +24,23 @@ int main(){
                 window.close();
         }
 
+        std::vector<std::vector<Cell>> cells{};
+        for(int i = 0; i < height/side; i++){
+            std::vector<Cell> row{};
+            cells.push_back(row); 
+            for(int k = 0; k < width/side; k++){
+                Cell cell{i, k, side, side, sf::Color((int) rand()%255, (int) rand()%255, (int) rand()%255)};
+                cells[i].push_back(cell);
+            }
+        }
         window.clear();
         for(int i = 0; i < cells.size(); i++){
             for(int k = 0; k < cells[i].size(); k++){
-                cells[i][k].draw(window);
-                std::cout << cells[i][k].toString();
+                window.draw((cells[i][k].getRect()));
+                
             }
         }
         window.display();
     }
-
     return 0;
 }
