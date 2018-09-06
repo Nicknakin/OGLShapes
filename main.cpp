@@ -1,35 +1,27 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <vector>
-#include <iostream>
 #include <ctime>
-#include <SFML/Graphics.hpp>
-#include "cell.h"
 
-#define grid std::vector<std::vector<Cell>>
+#include <SFML/Graphics.hpp>
+
+#include "cell.h"
+#include "grid.h"
 
 int width = 800, height = 800;
-int side = 1;
+int side = 10;
 int x = 0, y = 0, xI = 1, yI = 1, xMax = width/side, yMax = height/side;
 const float speed = 60.f;
-std::vector<std::vector<int>> changed{};
 
-void update(grid& cells, int i);
+std::vector<std::vector<int>> changed;
+
+void update(Grid& cells, int i);
 
 int main(){
     srand(std::time(nullptr));
-    grid cells{};
     bool resized = true;
     
-    for(int i = 0; i < height/side; i++){
-        std::vector<Cell> row{};
-        cells.push_back(row); 
-        for(int k = 0; k < width/side; k++){
-            Cell cell{k, i, side, side};
-            cells[i].push_back(cell);
-        }
-    }
-    
+    Grid cells{width/side, height/side, side};
+
     sf::RenderWindow window(sf::VideoMode(width,height), "SFML Project");
     window.setFramerateLimit(60);
     while (window.isOpen())
@@ -43,7 +35,7 @@ int main(){
                     resized = true;
         }
         
-        update(cells, 100);
+        update(cells, 50);
         while(changed.size() > 0){
             window.draw((cells[changed[0][0]][changed[0][1]]));
             changed.erase(changed.begin(), changed.begin()+1);
@@ -61,12 +53,12 @@ int main(){
     return 0;
 }
 
-void update(grid& cells, int i){
-    for(i; i > 0; i--){
+void update(Grid& cells, int in){
+    for(in; in > 0; in--){
         int i = rand()%cells.size();
         int k = rand()%cells[i].size();
         std::vector<int> temp{i,k};
         changed.push_back(temp);
-        cells[i][k].setColor(rand()%255, rand()%255, rand()%255);
+        cells.setColor(i, k, rand()%255, rand()%255, rand()%255);
     }
 }
