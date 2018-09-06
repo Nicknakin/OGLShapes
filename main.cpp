@@ -35,12 +35,11 @@ int main(){
                     resized = true;
         }
         
-        update(cells, 50);
+        update(cells, 100);
         while(changed.size() > 0){
             window.draw((cells[changed[0][0]][changed[0][1]]));
             changed.erase(changed.begin(), changed.begin()+1);
         }
-        window.display();
         if(resized){
             for(int i = 0; i < cells.size(); i++){
                 for(int k = 0; k < cells[i].size(); k++){
@@ -49,6 +48,7 @@ int main(){
             }
         }
         resized = false;
+        window.display();
     }
     return 0;
 }
