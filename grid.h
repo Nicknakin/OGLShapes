@@ -12,6 +12,8 @@ class Grid{
         Cell& getCell(int x, int y);
         Cell& getCell(int oneDIndex);
         int size();
+        int getWidth();
+        int getHeight();
         sf::Color getDefaultColor();
         std::vector<Cell>& getCells();
         void setColor(int x, int y, int r, int g, int b);

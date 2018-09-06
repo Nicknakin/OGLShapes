@@ -1,15 +1,16 @@
 #include <stdlib.h>
 #include <vector>
 #include <ctime>
+#include <stdio.h>
+#include <iostream>
 
 #include <SFML/Graphics.hpp>
 
 #include "cell.h"
 #include "grid.h"
 
-int width = 800, height = 800;
+int width = 1920/2, height = 1080/2;
 int side = 10;
-int x = 0, y = 0, xI = 1, yI = 1, xMax = width/side, yMax = height/side;
 const float speed = 60.f;
 
 std::vector<std::vector<int>> changed;
@@ -55,10 +56,10 @@ int main(){
 
 void update(Grid& cells, int in){
     for(in; in > 0; in--){
-        int i = rand()%cells.size();
-        int k = rand()%cells[i].size();
-        std::vector<int> temp{i,k};
+        int y = rand()%cells.getHeight();
+        int x = rand()%cells.getWidth();
+        std::vector<int> temp{y,x};
         changed.push_back(temp);
-        cells.setColor(i, k, rand()%255, rand()%255, rand()%255);
+        cells.setColor(x, y, rand()%255, rand()%255, rand()%255);
     }
 }

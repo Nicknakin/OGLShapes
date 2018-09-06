@@ -7,14 +7,14 @@
 
 class Cell: public sf::RectangleShape{
     public:
-        Cell(int x, int y, int width, int height, sf::Color color = sf::Color(0,0,0));
+        Cell(int x, int y, int width, int height, float r = 255, float g = 255, float b = 255);
         std::string toString() const;
         void setColor(int r, int g, int b);
         sf::Color getColor();
         friend std::ostream& operator<<(std::ostream& os, const Cell& cell);
+        float r,g,b;
 
     private:
-        sf::Color color;
         int x, y, width, height;
 };
 

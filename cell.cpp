@@ -1,14 +1,14 @@
 #include "cell.h"
 #include <sstream>
 
-Cell::Cell(int x, int y, int width, int height, sf::Color color): x{x}, y{y}, width{width}, height{height}, color{color}, sf::RectangleShape(sf::Vector2<float>{width, height}) {
+Cell::Cell(int x, int y, int width, int height, float r, float g, float b): x{x}, y{y}, width{width}, height{height}, r{r/255}, g{g/255}, b{b/255}, sf::RectangleShape(sf::Vector2<float>{width, height}) {
     setPosition(x*width, y*height);
-    setFillColor(color);
+    setFillColor(sf::Color{r*255, g*255, b*255});
 }
 
 std::string Cell::toString() const{
     std::stringstream buffer{};
-    buffer << x << " " << y << " " << width << " " << height << " (" << (int) color.r << "," << (int) color.g << "," << (int) color.b << ")";
+    buffer << x << " " << y << " " << width << " " << height << " (" << (int) r*255 << "," << (int) g*255 << "," << (int) b*255 << ")";
     return buffer.str();
 }
 
@@ -18,8 +18,5 @@ std::ostream& operator<<(std::ostream& os, const Cell& cell){
 }
 
 void Cell::setColor(int r, int g, int b){
-    color.r = r;
-    color.g = g;
-    color.b = b;
-    setFillColor(color);
+    setFillColor(sf::Color(r,g,b));
 }
